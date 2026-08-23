@@ -5,7 +5,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
-import org.testng.asserts.*;
+import org.testng.Assert;
 import org.openqa.selenium.WebElement;
 import java.io.File;
 import java.io.IOException;
@@ -38,7 +38,14 @@ public class ebaySearchPageObject {
 		
 		public void selectTransmission() {
 			WebElement manualCheckbox = driver.findElement(By.xpath("//input[@value='Manual']/ancestor::span[contains(@class,'checkbox')]"));
-			manualCheckbox.click();
+			if (manualCheckbox.isDisplayed()) {
+				manualCheckbox.click();
+			}
+			else {
+				WebElement transmissionArrow = driver.findElement(By.xpath("//span[text()='Transmission']"));
+				transmissionArrow.click();
+				manualCheckbox.click();
+			}
 					
 		}
 		
@@ -50,19 +57,20 @@ public class ebaySearchPageObject {
 		
 		
 		public void validateCorrectLink() {
-			WebElement ebayValidate = driver.findElement(By.id("gh-logo"));
-			if (ebayValidate.isDisplayed()== true) {
-				System.out.println("Landed on the correct website");
+			
+			WebElement mainPageElement = driver.findElement(By.xpath("//span[text()='Electronics']"));
+			if (mainPageElement.isDisplayed()==true) {
+				System.out.println("Landed on the main page");
 			}
+			
 			else {
-				System.out.println("Wrong navigation");
+				System.out.println("Landed on the wrong page");
 			}
 		}
 		
 		public void validateCorrectResults() {
 			WebElement resultValidate = driver.findElement(By.xpath("//span[contains(@class, 'su-styled-text') and contains(text(), 'Mazda')]"));
 			String result = resultValidate.getText().toLowerCase();
-			System.out.println(result);
 			if(result.contains("mazda mx")== true) {
 				System.out.println("Correct results");
 			}
