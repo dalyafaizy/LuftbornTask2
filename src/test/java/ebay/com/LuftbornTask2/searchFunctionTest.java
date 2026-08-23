@@ -52,7 +52,7 @@ public class searchFunctionTest {
   
   @AfterTest
   public void closeDriver() {
-	  //driver.quit();
+	  driver.quit();
   }
   }
 
